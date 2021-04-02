@@ -9,4 +9,4 @@
 
 ### Live Site:
 
-Live site link here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+Live site link here: [https://ponno-bilash.web.app/](https://ponno-bilash.web.app/)
