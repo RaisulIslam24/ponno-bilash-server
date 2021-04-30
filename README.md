@@ -7,9 +7,7 @@
 4. Specific users can show their order lists.
 5. Admin can add products using name, weight and pictures.
 
-## Front-end Technology: 
-React.js, React-router, React-hook-form, Bootstrap
-## Back-end Technology: 
+## Tools and Technology: 
 Node.js, Express.js, MongoDB
 
 ## Live Site:
