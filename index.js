@@ -18,48 +18,55 @@ app.get('/', (req, res) => {
 const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.3fo4t.mongodb.net/${process.env.DB_NAME}?retryWrites=true&w=majority`;
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
 client.connect(err => {
-    console.log('connection err', err);
+  console.log('connection err', err);
   const productCollection = client.db("ponnoBilash").collection("products");
   const ordersCollection = client.db("ponnoBilash").collection("orders");
 
+  app.get('/ordersByEmail', (req, res) => {
+    ordersCollection.find({ email: req.query.email })
+      .toArray((err, items) => {
+        res.send(items)
+      })
+  })
+
   app.get('/orders', (req, res) => {
-    ordersCollection.find({email: req.query.email})
-    .toArray((err, items) => {
-      res.send(items)
-    })
+    ordersCollection.find({})
+      .toArray((err, items) => {
+        res.send(items)
+      })
   })
 
   app.get('/products', (req, res) => {
     productCollection.find()
-    .toArray((err, items) => {
-      res.send(items)
-    })
+      .toArray((err, items) => {
+        res.send(items)
+      })
   })
 
   app.get('/product/:id', (req, res) => {
-    productCollection.find({_id: ObjectId(req.params.id)})
-    .toArray((err, items) => {
-      res.send(items[0])
-    })
+    productCollection.find({ _id: ObjectId(req.params.id) })
+      .toArray((err, items) => {
+        res.send(items[0])
+      })
   })
 
   app.post('/addProduct', (req, res) => {
     const newProduct = req.body;
     productCollection.insertOne(newProduct)
-    .then(result => {
-      res.send(result.insertedCount > 0)
-    })
+      .then(result => {
+        res.send(result.insertedCount > 0)
+      })
   })
 
   app.post('/addOrder', (req, res) => {
     const order = req.body;
     ordersCollection.insertOne(order)
-    .then(result => {
-      res.send(result.insertedCount > 0)
-    })
+      .then(result => {
+        res.send(result.insertedCount > 0)
+      })
   })
 
-//   client.close();
+  //   client.close();
 });
 
 
