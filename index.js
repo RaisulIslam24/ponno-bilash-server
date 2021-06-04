@@ -21,6 +21,7 @@ client.connect(err => {
   console.log('connection err', err);
   const productCollection = client.db("ponnoBilash").collection("products");
   const ordersCollection = client.db("ponnoBilash").collection("orders");
+  const adminsCollection = client.db("ponnoBilash").collection("admins");
 
   app.get('/ordersByEmail', (req, res) => {
     ordersCollection.find({ email: req.query.email })
@@ -63,6 +64,22 @@ client.connect(err => {
     ordersCollection.insertOne(order)
       .then(result => {
         res.send(result.insertedCount > 0)
+      })
+  })
+
+  app.post('/addAnAdmin', (req, res) => {
+    const email = req.body.email;
+    adminsCollection.insertOne({ email })
+        .then(result => {
+            res.send(result.insertedCount > 0);
+        })
+})
+
+  app.post('/isAdmin', (req, res) => {
+    const email = req.body.email;
+    adminsCollection.find({ email: email })
+      .toArray((er, admins) => {
+        res.send(admins.length > 0);
       })
   })
 
