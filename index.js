@@ -60,6 +60,22 @@ client.connect((err) => {
     });
   });
 
+  app.get("/search", (req, res) => {
+    const key = new RegExp(req.query.q, "i");
+    productsCollection.find({ name: key }).toArray((err, documents) => {
+      res.send(documents);
+    });
+  });
+
+  app.post("/productsByIds", (req, res) => {
+    const productIds = req.body;
+    productsCollection
+      .find({ _id: { $in: productIds } })
+      .toArray((err, documents) => {
+        res.send(documents);
+      });
+  });
+
   app.post("/addReview", (req, res) => {
     const review = req.body;
     reviewsCollection
